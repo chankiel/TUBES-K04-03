@@ -1,14 +1,25 @@
 from fungsi import *
 import random
 from time import *
+import os
+
+def login(username,pw,arr_user):
+    indx = firstIndx(username, arr_user, 0)
+    if indx == -1:
+        print("Username tidak terdaftar!")
+    else:
+        if pw == arr_user[indx][1]:
+            print("Selamat datang, "+username+"!\nMasukkan command \"help\" untuk daftar command yang dapat kamu panggil.")
+            return arr_user[indx][2]
+        else:
+            print("Password salah!")
+    return ''
 
 def summonjin(arr_pembangun,arr_user):    
     arr_temp = ['','Pengumpul','Pembangun']
-    print('''
-    Jenis jin yang dapat dipanggil:
-    (1) Pengumpul - Bertugas mengumpulkan bahan bangunan
-    (2) Pembangun - Bertugas membangun candi
-    ''')
+    print('''Jenis jin yang dapat dipanggil:
+(1) Pengumpul - Bertugas mengumpulkan bahan bangunan
+(2) Pembangun - Bertugas membangun candi''')
 
     while True:
         nomor = int(input("Masukkan nomor jenis jin yang ingin dipanggil: "))
@@ -32,21 +43,19 @@ def summonjin(arr_pembangun,arr_user):
     if nomor==2:
         penambah([username,0,"Pembangun"], arr_pembangun)
     penambah([username,pw,arr_temp[nomor]],arr_user)
-    print('''
-    Mengumpulkan sesajen...
-    Menyerahkan sesajen...
-    Membacakan mantra...
-    ''')
+    print('''Mengumpulkan sesajen...
+Menyerahkan sesajen...
+Membacakan mantra...''')
     print("Jin",username,"berhasil dipanggil!")
     
-def hapusjin():
+def hapusjin(arr_user,arr_candi,arr_pembangun):
     user = input("Masukkan username jin :")
     indx = firstIndx(user, arr_user, 0)
     if indx != -1:
         valid = input("Apakah anda yakin ingin menghapus jin dengan username "+user+" (Y/N)?")
         if valid == "Y":
             indx_pembangun = firstIndx(user, arr_pembangun, 0)
-            hapusSmua(arr_candi, 1, user)
+            hapusSemuaCandi(arr_candi, 1, user)
             arr_user[indx] = ['','','']
             arr_pembangun[indx_pembangun] = ['','','']
 
@@ -84,17 +93,13 @@ def ubahjin(arr,arr_pembangun):
                 print("Jin telah berhasil diubah.")
     
 def kumpul(arr_user,arr_bahan):
-    temp = firstIndx("Pengumpul", arr_user, 2)
-    if temp != -1:
-        pasir = random.randint(0,5)
-        batu = random.randint(0,5)
-        air = random.randint(0,5)
-        print("Jin menemukan",pasir,"pasir,",batu,"batu, dan",air,"air.")
-        arr_bahan[0][2] += pasir
-        arr_bahan[1][2] += batu
-        arr_bahan[2][2] += air
-    else:
-        print("Kumpul gagal. Anda tidak punya jin pengumpul. Silahkan summon terlebih dahulu.")  
+    pasir = random.randint(0,5)
+    batu = random.randint(0,5)
+    air = random.randint(0,5)
+    print("Jin menemukan",pasir,"pasir,",batu,"batu, dan",air,"air.")
+    arr_bahan[0][2] += pasir
+    arr_bahan[1][2] += batu
+    arr_bahan[2][2] += air
 
 def batchkumpul(arr_user,arr_bahan):
     jmlh_jin = count(arr_user, 2, "Pengumpul")
@@ -115,7 +120,7 @@ def batchkumpul(arr_user,arr_bahan):
     else:
         print("Kumpul gagal. Anda tidak punya jin pengumpul. Silahkan summon terlebih dahulu.")
 
-def bangun(arr_bahan,arr_user,arr_candi,arr_pembangun,pembuat):
+def bangun(arr_bahan,arr_candi,arr_pembangun,pembuat):
     pasir = random.randint(0,5)
     batu = random.randint(0,5)
     air = random.randint(0,5)
@@ -178,7 +183,7 @@ def laporanjin(arr_user,arr_pembangun,arr_candi,arr_bahan):
 
     print("Total Jin Pembangun:",total_jin-total_pengumpul)
 
-    if count(arr_candi, 0, '') == 100 and count(arr_user,2,"Pembangun") == 0:
+    if count(arr_candi, 0, '') == 0 and count(arr_user,2,"Pembangun") == 0:
         print("Jin Terajin: -\nJin Termalas: -")
     else:
         print("Jin Terajin:", findTerajin(arr_pembangun))
@@ -206,7 +211,7 @@ def laporancandi(arr_candi):
         print("ID Candi Termahal: -")
         print("ID Candi Termurah: -")
 
-def hancurkancandi(arr_candi):
+def hancurkancandi(arr_candi,arr_pembangun):
     id = int(input("Masukkan ID candi: "))
     if arr_candi[id-1][0]=="":
         print("Tidak ada candi dengan ID tersebut.")
@@ -228,3 +233,151 @@ def ayamberkokok(arr_candi):
     else:
         print("Yah, Bandung Bondowoso memenangkan permainan!")
 
+def ket_help(jenis):
+    if jenis==0:
+        print('''=========== HELP ===========
+1. login
+   Untuk masuk menggunakan akun
+2. exit
+   Untuk keluar dari program dan kembali ke terminal''')
+    elif jenis==1:
+        print('''=========== HELP ===========
+1. logout
+   Untuk masuk menggunakan akun
+2. summonjin
+   Untuk memanggil jin
+3. hapusjin
+   Untuk menghapus jin
+4. ubahjin
+   Untuk mengubah tipe jin
+5. batchkumpul
+   Untuk mengerahkan seluruh jin pembangun untuk membangun masing-masing 1 candi
+6. batchbangun
+   Untuk mengerahkan seluruh jin pengumpul untuk mengumpulkan bahan
+7. laporanjin
+   Memberikan laporan yang berisi tentang jin
+8. laporancandi
+   Memberikan laporan yang berisi tentang candi''')
+    elif jenis==2:
+        print('''=========== HELP ===========
+1. hancurkancandi
+   Untuk menghancurkan satu candi
+2. ayamberkokok
+   Untuk memeriksa jumlah candi yang berhasil dibangun dan menentukan pemenangnya''')
+    elif jenis==3:
+        print('''=========== HELP ===========
+1. bangun
+   Untuk membangun sebuah candi''')
+    else:
+        print('''=========== HELP ===========
+1. kumpul
+   Untuk mengumpulkan baha-bahan candi, yakni pasir,batu,dan air''')
+
+
+def proses_bandung(perintah,arr_bahan,arr_candi,arr_pembangun,arr_user):
+    if perintah=="summonjin":
+        summonjin(arr_pembangun, arr_user)
+    elif perintah=="hapusjin":
+        hapusjin(arr_user, arr_candi, arr_pembangun)
+    elif perintah=="ubahjin":
+        ubahjin(arr_user, arr_pembangun)
+    elif perintah=="batchkumpul":
+        batchkumpul(arr_user, arr_bahan)
+    elif perintah=="batchbangun":
+        batchbangun(arr_user, arr_pembangun, arr_bahan, arr_candi)
+    elif perintah=="laporanjin":
+        laporanjin(arr_user, arr_pembangun, arr_candi, arr_bahan)
+    elif perintah=="laporancandi":
+        laporancandi(arr_candi)
+    elif perintah=="help":
+        ket_help(1)
+    else:
+        print("Bandung tidak dapat melakukan command tersebut.")
+
+def proses_roro(perintah,arr_candi,arr_pembangun):
+    if perintah=="hancurkancandi":
+        hancurkancandi(arr_candi,arr_pembangun)
+    elif perintah=="ayamberkokok":
+        ayamberkokok(arr_candi)
+    elif perintah=="help":
+        ket_help(2)
+    else:
+        print("Roro tidak dapat melakukan command tersebut.")
+
+def proses_pembangun(perintah,pembuat,arr_bahan,arr_candi,arr_pembangun,arr_user):
+    if perintah=="bangun":
+        bangun(arr_bahan, arr_candi, arr_pembangun, pembuat)
+    elif perintah=="help":
+        ket_help(3)
+    elif perintah=="laporanjin":
+        print("Laporan jin hanya dapat diakses oleh akun Bandung Bondowoso")
+    elif perintah=="laporancandi":
+        print("Laporan candi hanya dapat diakses oleh akun Bandung Bondowoso")
+    else:
+        print("Jin Pembangun tidak bisa melakukan command tersebut.")
+
+def proses_pengumpul(perintah,arr_bahan):
+    if perintah=="kumpul":
+        kumpul(arr_bahan)
+    elif perintah=="laporanjin":
+        print("Laporan jin hanya dapat diakses oleh akun Bandung Bondowoso")
+    elif perintah=="laporancandi":
+        print("Laporan candi hanya dapat diakses oleh akun Bandung Bondowoso")
+    elif perintah=="help":
+        ket_help(4)
+    else:
+        print("Jin pengumpul tidak dapat melakukan command tersebut")
+
+def listToStr(arr,jenis):
+    string = ''
+    if jenis == "candi.csv":
+        jmlh_kolom = 5
+    else:
+        jmlh_kolom = 3
+
+    for i in range(jmlh_kolom):
+        string += str(arr[i])
+        if i==jmlh_kolom-1:
+            break
+        string += ';'
+    
+    return string
+
+def salinCSV(filename,arr):
+    with open(filename,'w') as f:
+        i = 0
+        while arr[i][0] != 99999:
+            string = listToStr(arr[i], filename)
+            f.write(string)
+
+
+def save(arr_candi,arr_bahan,arr_user):
+    folder = input("Masukkan nama folder: ")
+    print("Saving...")
+    if not os.path.isdir("ExternalFile/save"):
+        os.makedirs("ExternalFile/save")
+        print("Membuat folder save...")
+    path = os.path.join("ExternalFile/save","folder")
+    if not os.path.isdir(path):
+        os.makedirs(path)
+        print("Membuat folder save/"+folder+"...")
+
+    path_file = os.path.join(path,"user.csv")
+    salinCSV(path_file, arr_user)
+
+    path_file = os.path.join(path,"bahan_bangunan.csv")
+    salinCSV(path_file, arr_bahan)
+
+    path_file = os.path.join(path,"candi.csv")
+    salinCSV(path_file, arr_candi)
+
+    print("Berhasil menyimpan data di folder save/"+folder+"!")
+
+def keluar(arr_candi,arr_bahan,arr_user):
+    while True:
+        valid = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n)")
+        if valid=='N' or valid=='n' or valid=="y" or valid=='Y':
+            break
+    if valid=='Y' or valid=="y":
+        save(arr_candi, arr_bahan, arr_user)
+    exit()

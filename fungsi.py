@@ -1,5 +1,4 @@
 import random
-
 def read_csv(filename,arr):
     judul = False
     with open(filename,'r') as file:
@@ -8,7 +7,7 @@ def read_csv(filename,arr):
             if judul==False:
                 judul=True
                 continue
-            arr[i] = (line.rstrip()).split(';')
+            arr[i] = line.rstrip().split()
 
             if filename=="candi.csv":
                 arr[i][0] = int(arr[i][0])
@@ -43,11 +42,11 @@ def firstIndx(x,arr,column):
         i+=1
     return indx
 
-def inisialisasi(jenis):
+def inisialisasi(jenis,filename):
     if jenis=="user":
         matrix = [['' for i in range(3)] for j in range(103)]
         matrix[102][0] = 99999
-        read_csv("user.csv", matrix)
+        read_csv(filename, matrix)
     elif jenis=="bahan":
         matrix = [['' for i in range(3)] for j in range(4)]
         matrix[3][0] = 99999
@@ -55,11 +54,11 @@ def inisialisasi(jenis):
         matrix[1][0] = "batu"
         matrix[2][0] = "air"
         matrix[0][2] = matrix[1][2] = matrix[2][2] = 0
-        read_csv("bahan_bangunan.csv", matrix)
+        read_csv(filename, matrix)
     else:
         matrix = [['' for i in range(5)] for j in range(101)]
         matrix[100][0] = 99999
-        read_csv("candi.csv", matrix)
+        read_csv(filename, matrix)
     return matrix
 
 def count(arr,column,x):
@@ -177,11 +176,25 @@ def CandiTer(arr_candi,jenis):
         i+=1
     return [indx,temp]
 
-def hapusSmua(arr_candi,kategori,cek):
+def hapusSemuaCandi(arr_candi,kategori,cek):
     i = 0
     while arr_candi[i][0] != 99999:
         if arr_candi[i][kategori] == cek:
             arr_candi[i] = ['','','','','']
         i += 1
 
+def splitStr(string,jenis):
+    if jenis=="candi.csv":
+        hasil = ['' for i in range(5)]
+    else:
+        hasil = ['' for i in range(3)]
 
+    panjang = len(string)
+    indx = 0
+    for i in range(panjang):
+        if string[i] != ';':
+            hasil[indx] += string[i]
+        else:
+            indx+=1
+
+    return hasil
