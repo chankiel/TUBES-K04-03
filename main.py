@@ -27,8 +27,6 @@ data_bahan = inisialisasi("bahan", path_file)
 path_file = os.path.join(path,"candi.csv")
 data_candi = inisialisasi("candi", path_file)
 
-data_pembangun = Pembangun(data_user, data_candi)
-
 while True:
     perintah = input(">>>")
     if perintah=="login":
@@ -48,11 +46,11 @@ while True:
                 elif perintah=="save":
                     save(data_candi, data_bahan, data_user)
                 elif status == "bandung_bondowoso":
-                    proses_bandung(perintah, data_bahan, data_candi, data_pembangun, data_user)
+                    proses_bandung(perintah, data_bahan, data_candi, data_user)
                 elif status == "roro_jonggrang":
-                    proses_roro(perintah, data_candi, data_pembangun)
+                    proses_roro(perintah, data_candi)
                 elif status == "Pembangun":
-                    proses_pembangun(perintah, username, data_bahan, data_candi, data_pembangun, data_user)
+                    proses_pembangun(perintah, username, data_bahan, data_candi, data_user)
                 else:
                     proses_pengumpul(perintah, data_bahan)
     elif perintah=="logout":

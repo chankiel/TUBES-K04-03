@@ -1,5 +1,5 @@
 import random
-def read_csv(filename,arr):
+def read_csv(filename,arr,jenis):
     judul = False
     with open(filename,'r') as file:
         i = 0
@@ -7,31 +7,23 @@ def read_csv(filename,arr):
             if judul==False:
                 judul=True
                 continue
-            arr[i] = line.rstrip().split()
+            isi = splitStr(line.rstrip(), ';')
 
-            if filename=="candi.csv":
+            if jenis=="candi":
+                while i+1 < int(isi[0]):
+                    arr[i] = ['','','','','']
+                    i+=1
+
+            arr[i] = isi
+            if jenis=="candi":
                 arr[i][0] = int(arr[i][0])
                 for j in range(2,5):
                     arr[i][j] = int(arr[i][j])
 
-            elif filename=="bahan_bangunan.csv":
+            elif jenis=="bahan":
                 arr[i][2] =  int(arr[i][2])
 
             i+=1
-
-def Pembangun(arr_user,arr_candi):
-    arr = [['' for i in range(3)] for j in range(101)]
-    arr[100][0] = 99999
-    i_user = 0
-    i_arr = 0
-    while arr_user[i_user][0] != 99999:
-        if arr_user[i_user][2] == "Pembangun":
-            arr[i_arr][0] = arr_user[i_user][0]
-            arr[i_arr][1] = count(arr_candi, 1, arr[i_arr][0])
-            arr[i_arr][2] = "Pembangun"
-            i_arr += 1
-        i_user += 1
-    return arr
 
 def firstIndx(x,arr,column):
     indx = -1
@@ -46,7 +38,7 @@ def inisialisasi(jenis,filename):
     if jenis=="user":
         matrix = [['' for i in range(3)] for j in range(103)]
         matrix[102][0] = 99999
-        read_csv(filename, matrix)
+        read_csv(filename, matrix, jenis)
     elif jenis=="bahan":
         matrix = [['' for i in range(3)] for j in range(4)]
         matrix[3][0] = 99999
@@ -54,11 +46,11 @@ def inisialisasi(jenis,filename):
         matrix[1][0] = "batu"
         matrix[2][0] = "air"
         matrix[0][2] = matrix[1][2] = matrix[2][2] = 0
-        read_csv(filename, matrix)
+        read_csv(filename, matrix, jenis)
     else:
         matrix = [['' for i in range(5)] for j in range(101)]
         matrix[100][0] = 99999
-        read_csv(filename, matrix)
+        read_csv(filename, matrix, jenis)
     return matrix
 
 def count(arr,column,x):
@@ -107,40 +99,37 @@ def kurang_bahan(punya,perlu):
     return kurang
 
         
-def findTerajin(arr):
+def findTerajin(arr_bangun):
     maks = -1
     user = ''
     i = 0
-    while arr[i][0] != 99999:
-        if arr[i][0] != '':
-            if arr[i][1] > maks:
-                maks = arr[i][1]
-                user = arr[i][0]
-            elif arr[i][1] == maks:
-                if arr[i][0] < user:
-                    user = arr[i][0]
+    while arr_bangun[i][0] != 99999:
+        if arr_bangun[i][0] != '':
+            if arr_bangun[i][1] > maks:
+                maks = arr_bangun[i][1]
+                user = arr_bangun[i][0]
+            elif arr_bangun[i][1] == maks:
+                if arr_bangun[i][0] < user:
+                    user = arr_bangun[i][0]
         i+=1
         
     return user
 
-def findTermalas(arr):
-    minn = 100 
+def findTermalas(arr_bangun):
+    minn = 101 
     user = ''
     i = 0
-    while arr[i][0] != 99999:
-        if arr[i][0] != '':
-            if arr[i][1] < minn:
-                minn = arr[i][1]
-                user = arr[i][0]
-            elif arr[i][1] == minn:
-                if arr[i][0] > user:
-                    user = arr[i][0]
+    while arr_bangun[i][0] != 99999:
+        if arr_bangun[i][0] != '':
+            if arr_bangun[i][1] < minn:
+                minn = arr_bangun[i][1]
+                user = arr_bangun[i][0]
+            elif arr_bangun[i][1] == minn:
+                if arr_bangun[i][0] > user:
+                    user = arr_bangun[i][0]
         i+=1
         
     return user
-
-def jumlahcandi(arr_candi):
-    return 100-count(arr_candi, 0, '')
 
 def totalBahan(arr_candi,jenis):
     i = 0
@@ -158,13 +147,12 @@ def CandiTer(arr_candi,jenis):
         temp = float('inf')
 
     i = 0
-    indx = -1
     hargaPc = [10000,15000,7500]
     while arr_candi[i][0] != 99999:
         if arr_candi[i][0] != '':
             harga = 0
             for j in range(2,5):
-                harga += hargaPc[j-2]
+                harga += hargaPc[j-2]*arr_candi[i][j]
             if jenis=="Termahal":
                 if harga > temp:
                     temp = harga
@@ -183,18 +171,50 @@ def hapusSemuaCandi(arr_candi,kategori,cek):
             arr_candi[i] = ['','','','','']
         i += 1
 
-def splitStr(string,jenis):
-    if jenis=="candi.csv":
-        hasil = ['' for i in range(5)]
-    else:
-        hasil = ['' for i in range(3)]
-
+def splitStr(string,delimiter):
     panjang = len(string)
+    jmlh_delim = 0
+    for i in range(panjang):
+        if string[i] == delimiter:
+            jmlh_delim += 1
+    
+    hasil = ['' for i in range(jmlh_delim+1)]
     indx = 0
     for i in range(panjang):
-        if string[i] != ';':
+        if string[i] != delimiter:
             hasil[indx] += string[i]
         else:
-            indx+=1
-
+            indx += 1
+    
     return hasil
+
+def salinKeCSV(filename,arr,jenis):
+    with open(filename,'w') as f:
+        if jenis == 'user':
+            f.write("username;password;role")
+        elif jenis == 'candi':
+            f.write("id;pembuat;pasir;batu;air")
+        else:
+            f.write('nama;deskripsi;jumlah')
+
+        i = 0
+        while arr[i][0] != 99999:
+            if arr[i][0] != '':
+                string = '\n' + listToStr(arr[i], jenis)
+                f.write(string)
+            i+=1
+
+def listToStr(arr,jenis):
+    string = ''
+    if jenis == "candi":
+        jmlh_kolom = 5
+    else:
+        jmlh_kolom = 3
+
+    for i in range(jmlh_kolom):
+        string += str(arr[i])
+        if i==jmlh_kolom-1:
+            break
+        string += ';'
+    
+    return string
