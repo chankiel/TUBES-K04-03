@@ -1,4 +1,6 @@
 from commands import *
+from Candi import *
+from Jin import *
 import os
 
 def login(username: str,pw: str,arr_user: list[list[str]]) -> str:
@@ -165,11 +167,11 @@ def ket_help(jenis: str) -> None:
    Untuk keluar dari akun yang diguunakan sekarang 
 2. hancurkancandi
    Untuk menghancurkan satu candi
-2. ayamberkokok
+3. ayamberkokok
    Untuk memeriksa jumlah candi yang berhasil dibangun dan menentukan pemenangnya
-3. save
+4. save
    Untuk menyimpan progress manajerial candi
-4. exit
+5. exit
    Untuk keluar dari program dan kembali ke terminal''')
     elif jenis==3:
         print('''=========== HELP ===========
