@@ -12,7 +12,7 @@ def kumpul(arr_bahan: list[list[any]]) -> None:
     arr_bahan[2][2] += air
 
 def batchkumpul(arr_user: list[list[str]],arr_bahan: list[list[any]]) -> None:
-    jmlh_jin = count(arr_user, 2, "Pengumpul")
+    jmlh_jin = count(arr_user, 2, "jin_pengumpul")
     if jmlh_jin != 0:
         pasir = 0
         batu = 0
@@ -31,9 +31,9 @@ def batchkumpul(arr_user: list[list[str]],arr_bahan: list[list[any]]) -> None:
         print("Kumpul gagal. Anda tidak punya jin pengumpul. Silahkan summon terlebih dahulu.")
 
 def bangun(arr_bahan: list[list[any]],arr_candi: list[list[any]],pembuat: str) -> None:
-    pasir = random.randint(0,5)
-    batu = random.randint(0,5)
-    air = random.randint(0,5)
+    pasir = random.randint(1,5)
+    batu = random.randint(1,5)
+    air = random.randint(1,5)
 
     if (arr_bahan[0][2] >= pasir and arr_bahan[1][2] >= batu and arr_bahan[2][2] >= air):
         temp = count(arr_candi, 0, '')
@@ -51,7 +51,7 @@ def bangun(arr_bahan: list[list[any]],arr_candi: list[list[any]],pembuat: str) -
         print("Bahan bangunan tidak mencukupi.\nCandi tidak bisa dibangun.")
 
 def batchbangun(arr_user: list[list[str]],arr_bahan: list[list[any]],arr_candi: list[list[any]]) -> None:
-    jmlh_jin = count(arr_user, 2, "Pembangun")
+    jmlh_jin = count(arr_user, 2, "jin_pembangun")
     if jmlh_jin != 0:
         temp = time.time()
         total = jumlah_perlu(temp, jmlh_jin)
@@ -60,12 +60,12 @@ def batchbangun(arr_user: list[list[str]],arr_bahan: list[list[any]],arr_candi: 
         terbangun = 0
         if (arr_bahan[0][2] >= total[0] and arr_bahan[1][2] >= total[1] and arr_bahan[2][2] >= total[2]):
             for i in range(jmlh_jin):
-                pasir = random.randint(0,5)
-                batu = random.randint(0, 5)
-                air = random.randint(0, 5)
+                pasir = random.randint(1, 5)
+                batu = random.randint(1, 5)
+                air = random.randint(1, 5)
                 if sisa_candi != 0:
                     indx = firstIndx('', arr_candi, 0)+1
-                    jin = pemilih(arr_user, i+1, "Pembangun", 2, 0)
+                    jin = pemilih(arr_user, i+1, "jin_pembangun", 2, 0)
                     penambah([indx,jin,pasir,batu,air], arr_candi)
                     sisa_candi -= 1
                     terbangun += 1

@@ -18,12 +18,17 @@ def login(username: str,pw: str,arr_user: list[list[str]]) -> str:
 def undo(stack_user: list[list[str]],stack_candi: list[list[any]],arr_user: list[list[str]],arr_candi: list[list[any]]) -> None:
     indx_user = lastIndx('', stack_user, 0) + 1
     indx_candi = lastIndx('', stack_candi, 0) + 1
+    pembuat = stack_user[indx_user][0]
     if stack_user[indx_user][0] == 99999:
         print("Stack kosong, tidak bisa melakukan undo.")
+    elif firstIndx(pembuat, arr_user, 0) == -1 and count(arr_user, 0, '') == 0:
+        print("Undo gagal dilakukan karena jumlah jin telah mencapai maksimal (100 jin).")
     else:
-        pembuat = stack_user[indx_user][0]
         if firstIndx(pembuat, arr_user, 0) == -1:
             penambah(stack_user[indx_user], arr_user)
+            print("Undo berhasil dilakukan, Jin \""+pembuat+"\" telah kembali!")
+        else:
+            print("Undo berhasil dilakukan, Jin sudah ada!")
         stack_user[indx_user] = ['','','']
 
         while stack_candi[indx_candi][1] == pembuat:
@@ -39,10 +44,10 @@ def undo(stack_user: list[list[str]],stack_candi: list[list[any]],arr_user: list
 def save(arr_candi: list[list[any]], arr_bahan: list[list[any]], arr_user: list[list[str]], stack_candi: list[list[any]], stack_user: list[list[any]]) -> None:
     folder = input("\nMasukkan nama folder: ")
     print("\nSaving...")
-    if not os.path.isdir("ExternalFile/save"):
-        os.makedirs("ExternalFile/save")
+    if not os.path.isdir("save"):
+        os.makedirs("save")
         print("\nMembuat folder save...")
-    path = os.path.join("ExternalFile/save",folder)
+    path = os.path.join("save",folder)
     if not os.path.isdir(path):
         os.makedirs(path)
         print("Membuat folder save/"+folder+"...")

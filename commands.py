@@ -111,9 +111,9 @@ def jumlah_perlu(seeds: int,jmlh_jin: int) -> list[int]:
     total_bahan = [0,0,0]
     random.seed(seeds)
     for i in range(jmlh_jin):
-        total_bahan[0] += random.randint(0, 5)
-        total_bahan[1] += random.randint(0, 5)
-        total_bahan[2] += random.randint(0, 5)
+        total_bahan[0] += random.randint(1, 5)
+        total_bahan[1] += random.randint(1, 5)
+        total_bahan[2] += random.randint(1, 5)
     return total_bahan
 
 def jumlah_kurang(bahanPunya: list[list[any]],bahanPerlu: list[int]) -> list[int]:
@@ -274,7 +274,7 @@ def listKerja(arr_user: list[list[str]],arr_candi: list[list[any]]) -> list[list
 
     i = 2
     while arr_user[i][0] != 99999:
-        if arr_user[i][2] == "Pembangun":
+        if arr_user[i][2] == "jin_pembangun":
             if firstIndx(arr_user[i][0], list_bangun, 0) == -1:
                 penambah([arr_user[i][0],0], list_bangun)    
         i += 1
