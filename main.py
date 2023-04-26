@@ -15,7 +15,7 @@ if folder is None:
     print("Usage: python main.py <nama_folder>")
     exit()
 else:
-    path = os.path.join('ExternalFile',args.folder) 
+    path = os.path.join('save',args.folder) 
     if os.path.isdir(path)==True:
         print("Selamat datang di program \"Manajerial Candi\"\nMasukkan command \"help\" untuk daftar command yang dapat kamu panggil.")
     else:
@@ -23,7 +23,7 @@ else:
         exit()
 
 # Load CSV ke Matrix
-path_file = os.path.join(path,"user.csv") #ExternalFile/Inisial/user.csv
+path_file = os.path.join(path,"user.csv")
 data_user = inisialisasi("user", path_file)
 
 path_file = os.path.join(path,"bahan_bangunan.csv")
@@ -62,7 +62,7 @@ while True:
                     proses_bandung(perintah, data_bahan, data_candi, data_user, stack_user, stack_candi)
                 elif status == "roro_jonggrang":
                     proses_roro(perintah, data_candi)
-                elif status == "Pembangun":
+                elif status == "jin_pembangun":
                     proses_pembangun(perintah, username, data_bahan, data_candi, data_user)
                 else:
                     proses_pengumpul(perintah, data_bahan)
