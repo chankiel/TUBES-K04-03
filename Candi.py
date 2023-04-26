@@ -90,9 +90,9 @@ def laporancandi(arr_candi: list[list[any]]) -> None:
         print("> Total Batu yang digunakan:",totalTerpakai(arr_candi, 3))
         print("> Total Air yang digunakan:",totalTerpakai(arr_candi, 4))
 
-        candi = CandiTer(arr_candi, "Termahal")
+        candi = candiTer(arr_candi, "Termahal")
         print(f"> ID Candi Termahal: "+str(candi[0])+" (Rp "+str(candi[1])+")")
-        candi = CandiTer(arr_candi, "Termurah")
+        candi = candiTer(arr_candi, "Termurah")
         print(f"> ID Candi Termurah: "+str(candi[0])+" (Rp "+str(candi[1])+")")
     else:
         print("> Total Pasir yang digunakan: 0")

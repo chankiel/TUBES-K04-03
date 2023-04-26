@@ -169,7 +169,7 @@ def totalTerpakai(arr_candi: list[list[any]],jenis: int) -> int:
         i += 1
     return total
 
-def CandiTer(arr_candi: list[list[any]],jenis: str) -> list[int]:
+def candiTer(arr_candi: list[list[any]],jenis: str) -> list[int]:
     # Mengembalikan index dan harga candi Termahal/Termurah
     if jenis=="Termahal":
         temp = 0
