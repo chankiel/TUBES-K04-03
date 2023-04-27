@@ -38,8 +38,6 @@ def undo(stack_user: list[list[str]],stack_candi: list[list[any]],arr_user: list
                 arr_candi[indx] = stack_candi[indx_candi]
             stack_candi[indx_candi] = ['','','','','']
             indx_candi += 1
-        
-        print("Undo berhasil dilakukan, Jin \""+pembuat+"\" telah kembali!")
 
 def save(arr_candi: list[list[any]], arr_bahan: list[list[any]], arr_user: list[list[str]], stack_candi: list[list[any]], stack_user: list[list[any]]) -> None:
     folder = input("\nMasukkan nama folder: ")

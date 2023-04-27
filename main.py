@@ -33,8 +33,8 @@ path_file = os.path.join(path,"candi.csv")
 data_candi = inisialisasi("candi", path_file)
 
 # Inisialisasi Stack utk Undo
-stack_user = [['' for i in range(3)] for j in range(101)]
-stack_user[100][0] = 99999
+stack_user = [['' for i in range(3)] for j in range(301)]
+stack_user[300][0] = 99999
 
 stack_candi = [['' for i in range(5)] for j in range(10001)]
 stack_candi[10000][0] = 99999
