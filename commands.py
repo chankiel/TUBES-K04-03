@@ -11,11 +11,16 @@ def read_csv(filename: str,arr: list[list[any]],jenis: str) -> None:
                 continue
             isi = splitStr(line.rstrip(), ';')
 
+            # Untuk data candi, pengisian data dari CSV disesuaikan dengan index baris matriks
+            # Jadi jika terdapat data dgn id 1 langsung 3, maka pada index 1 (id 2) diisi kosong
             if jenis=="candi":
                 while i+1 < int(isi[0]):
                     arr[i] = ['','','','','']
                     i+=1
             arr[i] = isi
+            # Untuk data candi dan data bahan, type casting ke integer utk data angka
+            # Untuk data candi, kolom 0(id), 2(pasir), 3(batu), 4(air)
+            # Untuk data bahan, kolom 2(jumlah)
             if jenis=="candi":
                 arr[i][0] = int(arr[i][0])
                 for j in range(2,5):
@@ -135,6 +140,7 @@ def findTerajin(arr_bangun: list[list[any]]) -> str:
                 maks = arr_bangun[i][1]
                 user = arr_bangun[i][0]
             elif arr_bangun[i][1] == maks:
+                # Mengambil user dengan leksikografis terkecil
                 if arr_bangun[i][0] < user:
                     user = arr_bangun[i][0]
         i+=1
@@ -152,6 +158,7 @@ def findTermalas(arr_bangun: list[list[any]]) -> str:
                 minn = arr_bangun[i][1]
                 user = arr_bangun[i][0]
             elif arr_bangun[i][1] == minn:
+                # Mengambil user dengan leksikografis terbesar
                 if arr_bangun[i][0] > user:
                     user = arr_bangun[i][0]
         i+=1
@@ -171,6 +178,7 @@ def totalTerpakai(arr_candi: list[list[any]],jenis: int) -> int:
 
 def candiTer(arr_candi: list[list[any]],jenis: str) -> list[int]:
     # Mengembalikan index dan harga candi Termahal/Termurah
+    # Id dengan harga candi yang sama dipilih Id yang ditemukan pertama (baris teratas)
     if jenis=="Termahal":
         temp = 0
     else:
@@ -274,6 +282,7 @@ def listKerja(arr_user: list[list[str]],arr_candi: list[list[any]]) -> list[list
 
     i = 2
     while arr_user[i][0] != 99999:
+        # Mencatat untuk jin pembangun yang belum membangun candi
         if arr_user[i][2] == "jin_pembangun":
             if firstIndx(arr_user[i][0], list_bangun, 0) == -1:
                 penambah([arr_user[i][0],0], list_bangun)    

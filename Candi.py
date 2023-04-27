@@ -36,49 +36,53 @@ def bangun(arr_bahan: list[list[any]],arr_candi: list[list[any]],pembuat: str) -
     air = random.randint(1,5)
 
     if (arr_bahan[0][2] >= pasir and arr_bahan[1][2] >= batu and arr_bahan[2][2] >= air):
-        temp = count(arr_candi, 0, '')
-        if temp != 0:
+        sisa_candi = count(arr_candi, 0, '')
+        if sisa_candi != 0:
+            # Jika jumlah candi kurang dari 100, candi dicatat ke data candi
+            # Jika sudah lebih dari 100, dianggap tidak ada pembangunan candi tapi bahan tetap dikurangi
             indx = firstIndx('', arr_candi, 0)
             arr_candi[indx] = [indx+1,pembuat,pasir,batu,air]
-            temp -= 1
+            sisa_candi -= 1
         arr_bahan[0][2] -= pasir
         arr_bahan[1][2] -= batu
         arr_bahan[2][2] -= air
 
         print("Candi berhasil dibangun.")
-        print("Sisa candi yang perlu dibangun:",temp)
+        print("Sisa candi yang perlu dibangun:",sisa_candi)
     else:
         print("Bahan bangunan tidak mencukupi.\nCandi tidak bisa dibangun.")
 
 def batchbangun(arr_user: list[list[str]],arr_bahan: list[list[any]],arr_candi: list[list[any]]) -> None:
     jmlh_jin = count(arr_user, 2, "jin_pembangun")
     if jmlh_jin != 0:
-        temp = time.time()
-        total = jumlah_perlu(temp, jmlh_jin)
-        random.seed(temp)
+        seeds = time.time()
+        totalPerlu = jumlah_perlu(seeds, jmlh_jin)
+        random.seed(seeds)
         sisa_candi = count(arr_candi, 0, '')
         terbangun = 0
-        if (arr_bahan[0][2] >= total[0] and arr_bahan[1][2] >= total[1] and arr_bahan[2][2] >= total[2]):
+        if (arr_bahan[0][2] >= totalPerlu[0] and arr_bahan[1][2] >= totalPerlu[1] and arr_bahan[2][2] >= totalPerlu[2]):
             for i in range(jmlh_jin):
                 pasir = random.randint(1, 5)
                 batu = random.randint(1, 5)
                 air = random.randint(1, 5)
                 if sisa_candi != 0:
+                    # Jika jumlah candi kurang dari 100, candi dicatat ke data candi
+                    # Jika sudah lebih dari 100, dianggap tidak ada pembangunan candi tapi bahan tetap dikurangi
                     indx = firstIndx('', arr_candi, 0)+1
                     jin = pemilih(arr_user, i+1, "jin_pembangun", 2, 0)
                     penambah([indx,jin,pasir,batu,air], arr_candi)
                     sisa_candi -= 1
                     terbangun += 1
 
-            arr_bahan[0][2] -= total[0]
-            arr_bahan[1][2] -= total[1]
-            arr_bahan[2][2] -= total[2]
+            arr_bahan[0][2] -= totalPerlu[0]
+            arr_bahan[1][2] -= totalPerlu[1]
+            arr_bahan[2][2] -= totalPerlu[2]
 
-            print("Mengerahkan",jmlh_jin,"jin untuk membangun candi dengan total bahan",total[0],"pasir,",total[1],"batu, dan",total[2],"air.")
+            print("Mengerahkan",jmlh_jin,"jin untuk membangun candi dengan total bahan",totalPerlu[0],"pasir,",totalPerlu[1],"batu, dan",totalPerlu[2],"air.")
             print("Jin berhasil membangun total",terbangun,"candi.")
         else:
-            temp = jumlah_kurang(arr_bahan, total)
-            print("Bangun gagal. Kurang",temp[0],"pasir,",temp[1],"batu, dan",temp[2],"air.")
+            totalKurang = jumlah_kurang(arr_bahan, totalPerlu)
+            print("Bangun gagal. Kurang",totalKurang[0],"pasir,",totalKurang[1],"batu, dan",totalKurang[2],"air.")
     else:
         print("Bangun gagal. Anda tidak punya jin pembangun. Silahkan summon terlebih dahulu.")
 
@@ -86,6 +90,7 @@ def laporancandi(arr_candi: list[list[any]]) -> None:
     jmlh_candi = 100-count(arr_candi, 0, '')
     print("\n> Total Candi:",jmlh_candi)
     if jmlh_candi != 0:
+        # Total bahan yang digunakan hanya pada candi yang tercatat
         print("> Total Pasir yang digunakan:",totalTerpakai(arr_candi, 2))
         print("> Total Batu yang digunakan:",totalTerpakai(arr_candi, 3))
         print("> Total Air yang digunakan:",totalTerpakai(arr_candi, 4))

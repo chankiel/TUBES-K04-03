@@ -1,7 +1,7 @@
 from commands import *
 
 def summonjin(arr_user: list[list[str]]) -> None:    
-    if count(arr_user, 0, '') != 0:
+    if count(arr_user, 0, '') != 0: #Menghitung jumlah baris pada data_user yang kosong (slot jin)
         arr_temp = ['','jin_pengumpul','jin_pembangun']
         print('''Jenis jin yang dapat dipanggil:
 (1) Pengumpul - Bertugas mengumpulkan bahan bangunan

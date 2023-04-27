@@ -16,30 +16,37 @@ def login(username: str,pw: str,arr_user: list[list[str]]) -> str:
     return ''
 
 def undo(stack_user: list[list[str]],stack_candi: list[list[any]],arr_user: list[list[str]],arr_candi: list[list[any]]) -> None:
-    indx_user = lastIndx('', stack_user, 0) + 1
+    indx_user = lastIndx('', stack_user, 0) + 1         # Indx yang tidak kosong pertama pada stack adalah indx kosong terakhir ditambah 1
     indx_candi = lastIndx('', stack_candi, 0) + 1
     pembuat = stack_user[indx_user][0]
-    if stack_user[indx_user][0] == 99999:
+    if stack_user[indx_user][0] == 99999:               #indx user berada pada mark
         print("Stack kosong, tidak bisa melakukan undo.")
     elif firstIndx(pembuat, arr_user, 0) == -1 and count(arr_user, 0, '') == 0:
+        # Jika Jin tidak ada pada data user dan jumlah jin sudah maksimal (100 jin)
         print("Undo gagal dilakukan karena jumlah jin telah mencapai maksimal (100 jin).")
     else:
         if firstIndx(pembuat, arr_user, 0) == -1:
+            # Jika Jin yang diundo tidak ada pada data user
             penambah(stack_user[indx_user], arr_user)
             print("Undo berhasil dilakukan, Jin \""+pembuat+"\" telah kembali!")
         else:
+            # Jika Jin yang diundo telah disummon kembali setelah penghapusannya
             print("Undo berhasil dilakukan, Jin sudah ada!")
         stack_user[indx_user] = ['','','']
 
         while stack_candi[indx_candi][1] == pembuat:
             if count(arr_candi, 0, '') != 0:
+                # Jika jumlah candi belum mencapai 100
                 indx = firstIndx('', arr_candi, 0)
                 stack_candi[indx_candi][0] = indx+1
                 arr_candi[indx] = stack_candi[indx_candi]
+            # Kosongkan stack candi pada index tersebut
             stack_candi[indx_candi] = ['','','','','']
             indx_candi += 1
 
 def save(arr_candi: list[list[any]], arr_bahan: list[list[any]], arr_user: list[list[str]], stack_candi: list[list[any]], stack_user: list[list[any]]) -> None:
+    # os.path.isdir untuk mengecek apakah suatu path exist atau tidak (True jika iya, False jika tidak)
+    # os.makedirs untuk membuat path directory yang baru
     folder = input("\nMasukkan nama folder: ")
     print("\nSaving...")
     if not os.path.isdir("save"):
@@ -50,7 +57,7 @@ def save(arr_candi: list[list[any]], arr_bahan: list[list[any]], arr_user: list[
         os.makedirs(path)
         print("Membuat folder save/"+folder+"...")
 
-    path_file = os.path.join(path,"user.csv") #ExternalFile/save/save2504/user.csv
+    path_file = os.path.join(path,"user.csv")
     salinKeCSV(path_file, arr_user,'user')
 
     path_file = os.path.join(path,"bahan_bangunan.csv")
@@ -59,11 +66,13 @@ def save(arr_candi: list[list[any]], arr_bahan: list[list[any]], arr_user: list[
     path_file = os.path.join(path,"candi.csv")
     salinKeCSV(path_file, arr_candi,'candi')
 
+    # Pengosongan Stack undo
     kosongStack(stack_candi, stack_user)
     print("\nBerhasil menyimpan data di folder save/"+folder+"!")
 
 def keluar(arr_candi: list[list[any]],arr_bahan: list[list[any]],arr_user: list[list[str]], stack_candi: list[list[any]], stack_user: list[list[any]]) -> None:
     while True:
+        # Menanyakan apakah ingin save sebelum keluar program
         valid = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n)")
         if valid=='N' or valid=='n' or valid=="y" or valid=='Y':
             break
