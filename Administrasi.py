@@ -2,8 +2,9 @@ from commands import *
 from Candi import *
 from Jin import *
 import os
+from typing import List, Union
 
-def login(username: str,pw: str,arr_user: list[list[str]]) -> str:
+def login(username: str,pw: str,arr_user: List[List[str]]) -> str:
     indx = firstIndx(username, arr_user, 0)
     if indx == -1:
         print("\nUsername tidak terdaftar!")
@@ -15,7 +16,7 @@ def login(username: str,pw: str,arr_user: list[list[str]]) -> str:
             print("\nPassword salah!")
     return ''
 
-def undo(stack_user: list[list[str]],stack_candi: list[list[any]],arr_user: list[list[str]],arr_candi: list[list[any]]) -> None:
+def undo(stack_user: List[List[str]],stack_candi: List[List[Union[int,str]]],arr_user: List[List[str]],arr_candi: List[List[Union[int,str]]]) -> None:
     indx_user = lastIndx('', stack_user, 0) + 1         # Indx yang tidak kosong pertama pada stack adalah indx kosong terakhir ditambah 1
     indx_candi = lastIndx('', stack_candi, 0) + 1
     pembuat = stack_user[indx_user][0]
@@ -44,7 +45,7 @@ def undo(stack_user: list[list[str]],stack_candi: list[list[any]],arr_user: list
             stack_candi[indx_candi] = ['','','','','']
             indx_candi += 1
 
-def save(arr_candi: list[list[any]], arr_bahan: list[list[any]], arr_user: list[list[str]], stack_candi: list[list[any]], stack_user: list[list[any]]) -> None:
+def save(arr_candi: List[List[Union[int,str]]], arr_bahan: List[List[Union[int,str]]], arr_user: List[List[str]], stack_candi: List[List[Union[int,str]]], stack_user: List[List[Union[int,str]]]) -> None:
     # os.path.isdir untuk mengecek apakah suatu path exist atau tidak (True jika iya, False jika tidak)
     # os.makedirs untuk membuat path directory yang baru
     folder = input("\nMasukkan nama folder: ")
@@ -70,17 +71,17 @@ def save(arr_candi: list[list[any]], arr_bahan: list[list[any]], arr_user: list[
     kosongStack(stack_candi, stack_user)
     print("\nBerhasil menyimpan data di folder save/"+folder+"!")
 
-def keluar(arr_candi: list[list[any]],arr_bahan: list[list[any]],arr_user: list[list[str]], stack_candi: list[list[any]], stack_user: list[list[any]]) -> None:
+def keluar(arr_candi: List[List[Union[int,str]]],arr_bahan: List[List[Union[int,str]]],arr_user: List[List[str]], stack_candi: List[List[Union[int,str]]], stack_user: List[List[Union[int,str]]]) -> None:
     while True:
         # Menanyakan apakah ingin save sebelum keluar program
-        valid = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n)")
+        valid = input("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) ")
         if valid=='N' or valid=='n' or valid=="y" or valid=='Y':
             break
     if valid=='Y' or valid=="y":
         save(arr_candi, arr_bahan, arr_user, stack_candi, stack_user)
     exit()
 
-def proses_bandung(perintah: str,arr_bahan: list[list[any]],arr_candi: list[list[any]],arr_user: list[list[str]],stack_user: list[list[str]], stack_candi: list[list[any]]) -> None:
+def proses_bandung(perintah: str,arr_bahan: List[List[Union[int,str]]],arr_candi: List[List[Union[int,str]]],arr_user: List[List[str]],stack_user: List[List[str]], stack_candi: List[List[Union[int,str]]]) -> None:
     if perintah=="summonjin":
         summonjin(arr_user)
     elif perintah=="hapusjin":
@@ -102,7 +103,7 @@ def proses_bandung(perintah: str,arr_bahan: list[list[any]],arr_candi: list[list
     else:
         print("Bandung tidak dapat melakukan command tersebut.")
 
-def proses_roro(perintah: str,arr_candi: list[list[any]]) -> None:
+def proses_roro(perintah: str,arr_candi: List[List[Union[int,str]]]) -> None:
     if perintah=="hancurkancandi":
         hancurkancandi(arr_candi)
     elif perintah=="ayamberkokok":
@@ -116,7 +117,7 @@ def proses_roro(perintah: str,arr_candi: list[list[any]]) -> None:
     else:
         print("Roro tidak dapat melakukan command tersebut.")
 
-def proses_pembangun(perintah: str,pembuat: str,arr_bahan: list[list[any]],arr_candi: list[list[any]],arr_user: list[list[str]]) -> None:
+def proses_pembangun(perintah: str,pembuat: str,arr_bahan: List[List[Union[int,str]]],arr_candi: List[List[Union[int,str]]],arr_user: List[List[str]]) -> None:
     if perintah=="bangun":
         bangun(arr_bahan, arr_candi, pembuat)
     elif perintah=="help":
@@ -128,7 +129,7 @@ def proses_pembangun(perintah: str,pembuat: str,arr_bahan: list[list[any]],arr_c
     else:
         print("Jin Pembangun tidak bisa melakukan command tersebut.")
 
-def proses_pengumpul(perintah: str,arr_bahan: list[list[any]]) -> None:
+def proses_pengumpul(perintah: str,arr_bahan: List[List[Union[int,str]]]) -> None:
     if perintah=="kumpul":
         kumpul(arr_bahan)
     elif perintah=="laporanjin":
@@ -160,9 +161,9 @@ def ket_help(jenis: str) -> None:
 4. ubahjin
    Untuk mengubah tipe jin
 5. batchkumpul
-   Untuk mengerahkan seluruh jin pembangun untuk membangun masing-masing 1 candi
-6. batchbangun
    Untuk mengerahkan seluruh jin pengumpul untuk mengumpulkan bahan
+6. batchbangun
+   Untuk mengerahkan seluruh jin pembangun untuk membangun masing-masing 1 candi
 7. laporanjin
    Memberikan laporan yang berisi tentang jin
 8. laporancandi

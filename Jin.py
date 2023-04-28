@@ -1,6 +1,7 @@
 from commands import *
+from typing import List, Union
 
-def summonjin(arr_user: list[list[str]]) -> None:    
+def summonjin(arr_user: List[List[str]]) -> None:    
     if count(arr_user, 0, '') != 0: #Menghitung jumlah baris pada data_user yang kosong (slot jin)
         arr_temp = ['','jin_pengumpul','jin_pembangun']
         print('''Jenis jin yang dapat dipanggil:
@@ -37,7 +38,7 @@ Membacakan mantra...''')
     else:
         print("Jumlah Jin telah maksimal! (100 jin). Bandung tidak dapat men-summon lebih dari itu")
 
-def hapusjin(arr_user: list[list[str]],arr_candi: list[list[any]], stack_user: list[list[str]], stack_candi: list[list[any]]) -> None:
+def hapusjin(arr_user: List[List[str]],arr_candi: List[List[Union[int,str]]], stack_user: List[List[str]], stack_candi: List[List[Union[int,str]]]) -> None:
     user = input("Masukkan username jin :")
     indx = firstIndx(user, arr_user, 0)
     if indx != -1:
@@ -56,7 +57,7 @@ def hapusjin(arr_user: list[list[str]],arr_candi: list[list[any]], stack_user: l
     else:
         print("\nTidak ada jin dengan username tersebut.")
             
-def ubahjin(arr_user: list[list[str]]) -> None:
+def ubahjin(arr_user: List[List[str]]) -> None:
     user = input("Masukkan username jin : ")
     indx = firstIndx(user, arr_user, 0)
     if indx == -1:
@@ -88,7 +89,7 @@ def ubahjin(arr_user: list[list[str]]) -> None:
         else:
             print("\nHanya Jin yang dapat diubah tipenya!")
 
-def laporanjin(arr_user: list[list[None]],arr_candi: list[list[any]],arr_bahan: list[list[any]]) -> None:
+def laporanjin(arr_user: List[List[str]],arr_candi: List[List[Union[int,str]]],arr_bahan: List[List[Union[int,str]]]) -> None:
     total_jin = 100 - count(arr_user, 0, '')
     print("\n> Total Jin:",total_jin)
 

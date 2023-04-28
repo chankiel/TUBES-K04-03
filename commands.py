@@ -1,6 +1,8 @@
-import random
+import time
+import math
+from typing import List, Union
 
-def read_csv(filename: str,arr: list[list[any]],jenis: str) -> None:
+def read_csv(filename: str,arr: List[List[Union[int,str]]],jenis: str) -> None:
     # Membaca CSV dan menyalinnya ke matriks
     judul = False
     with open(filename,'r') as file:
@@ -31,7 +33,7 @@ def read_csv(filename: str,arr: list[list[any]],jenis: str) -> None:
 
             i+=1
 
-def firstIndx(item: any,arr: list[list[any]],column: int) -> int:
+def firstIndx(item: Union[int,str],arr: List[List[Union[int,str]]],column: int) -> int:
     # Mengembalikan indeks baris pertama ditemukannya "item" di kolom "column" pada matriks "arr"
     # Jika tidak ketemu, mengembalikan -1 
     indx = -1
@@ -42,7 +44,7 @@ def firstIndx(item: any,arr: list[list[any]],column: int) -> int:
         i+=1
     return indx
 
-def lastIndx(item: any,arr: list[list[any]],column: int) -> int:
+def lastIndx(item: Union[int,str],arr: List[List[Union[int,str]]],column: int) -> int:
     # Mengembalikan indeks baris terakhir ditemukannya "item" di kolom "column" pada matriks "arr"
     # Jika tidak ketemu, mengembalikan -1 
     indx = -1
@@ -53,7 +55,7 @@ def lastIndx(item: any,arr: list[list[any]],column: int) -> int:
         i+=1
     return indx
 
-def inisialisasi(jenis: str,filename: str) -> list[list[any]]:
+def inisialisasi(jenis: str,filename: str) -> List[List[Union[int,str]]]:
     # Menginisialisasi ukuran maksimum matriks dan mengembalikan matriks
     # yang telah diisi dengan isi CSV
     if jenis=="user":
@@ -73,12 +75,12 @@ def inisialisasi(jenis: str,filename: str) -> list[list[any]]:
         read_csv(filename, matrix, jenis)
     return matrix
 
-def penambahStack(stack: list[list[any]],item: list[any]) -> None:
+def penambahStack(stack: List[List[Union[int,str]]],item: List[Union[int,str]]) -> None:
     # Menambahkan "item" pada stack, pengisian dilakukan pada indeks paling bawah yang kosong
     indx = lastIndx('', stack, 0)
     stack[indx] = item
 
-def count(arr: list[list[any]],column: int,item: any) -> int:
+def count(arr: List[List[Union[int,str]]],column: int,item: Union[int,str]) -> int:
     # Mengembalikan jumlah kemunculan "item" di kolom "column" pada matriks "arr" 
     jumlah = 0
     i = 0
@@ -88,7 +90,7 @@ def count(arr: list[list[any]],column: int,item: any) -> int:
         i+=1
     return jumlah
 
-def pemilih(arr: list[list[any]],pilih: int,item: any,kolom_cari: int,kolom_return: int) -> any:
+def pemilih(arr: List[List[Union[int,str]]],pilih: int,item: Union[int,str],kolom_cari: int,kolom_return: int) -> Union[int,str]:
     # Mengembalikan isi "kolom_return" ditemukannya "item" ke "pilih" dari atas pada kolom "kolom_cari" di matriks "arr"
     # Contoh: Return "username" jin dengan role "Pembangun" ke 3 dari atas
     i = 0
@@ -102,7 +104,7 @@ def pemilih(arr: list[list[any]],pilih: int,item: any,kolom_cari: int,kolom_retu
             return arr[i][kolom_return]
         i+=1
 
-def penambah(item: any,arr: list[list[any]]) -> None:
+def penambah(item: Union[int,str],arr: List[List[Union[int,str]]]) -> None:
     # Menambahkan "item" pada baris paling atas matriks "arr" yang kosong
     i = 0
     while arr[i][0] != 99999:
@@ -111,17 +113,7 @@ def penambah(item: any,arr: list[list[any]]) -> None:
             break
         i += 1
 
-def jumlah_perlu(seeds: int,jmlh_jin: int) -> list[int]:
-    # Mengembalikan jumlah bahan yang diperlukan untuk melakukan batchbangun 
-    total_bahan = [0,0,0]
-    random.seed(seeds)
-    for i in range(jmlh_jin):
-        total_bahan[0] += random.randint(1, 5)
-        total_bahan[1] += random.randint(1, 5)
-        total_bahan[2] += random.randint(1, 5)
-    return total_bahan
-
-def jumlah_kurang(bahanPunya: list[list[any]],bahanPerlu: list[int]) -> list[int]:
+def jumlah_kurang(bahanPunya: List[List[Union[int,str]]],bahanPerlu: List[int]) -> List[int]:
     # Mengembalikan jumlah bahan yang kurang untuk batchbangun
     bahanKurang = [0,0,0]
     for i in range(3):
@@ -129,7 +121,7 @@ def jumlah_kurang(bahanPunya: list[list[any]],bahanPerlu: list[int]) -> list[int
             bahanKurang[i] = bahanPerlu[i] - bahanPunya[i][2]
     return bahanKurang
 
-def findTerajin(arr_bangun: list[list[any]]) -> str:
+def findTerajin(arr_bangun: List[List[Union[int,str]]]) -> str:
     # Mengembalikan jin terajin
     maks = -1
     user = ''
@@ -147,7 +139,7 @@ def findTerajin(arr_bangun: list[list[any]]) -> str:
         
     return user
 
-def findTermalas(arr_bangun: list[list[any]]) -> str:
+def findTermalas(arr_bangun: List[List[Union[int,str]]]) -> str:
     # Mengembalikan jin termalas
     minn = 101 
     user = ''
@@ -165,7 +157,7 @@ def findTermalas(arr_bangun: list[list[any]]) -> str:
         
     return user
 
-def totalTerpakai(arr_candi: list[list[any]],jenis: int) -> int:
+def totalTerpakai(arr_candi: List[List[Union[int,str]]],jenis: int) -> int:
     # Mengembalikan total bahan berjenis "jenis" yang terpakai untuk membuat candi
     # jenis: 2 (pasir), 3 (batu), 4 (air)
     i = 0
@@ -176,7 +168,7 @@ def totalTerpakai(arr_candi: list[list[any]],jenis: int) -> int:
         i += 1
     return total
 
-def candiTer(arr_candi: list[list[any]],jenis: str) -> list[int]:
+def candiTer(arr_candi: List[List[Union[int,str]]],jenis: str) -> List[int]:
     # Mengembalikan index dan harga candi Termahal/Termurah
     # Id dengan harga candi yang sama dipilih Id yang ditemukan pertama (baris teratas)
     if jenis=="Termahal":
@@ -202,7 +194,7 @@ def candiTer(arr_candi: list[list[any]],jenis: str) -> list[int]:
         i+=1
     return [indx,temp]
 
-def hapusSemuaCandi(arr_candi: list[list[any]],kolom_cari: int,item: any, stack_candi = list[list[any]]) -> None:
+def hapusSemuaCandi(arr_candi: List[List[Union[int,str]]],kolom_cari: int,item: Union[int,str], stack_candi = List[List[Union[int,str]]]) -> None:
     # Menghapus semua candi yang berisi "item" pada kolom "kolom_cari" pada matriks candi "arr_candi"
     # Digunakan pada hapus jin, dimana menghapus semua candi milik jin tersebut pada matriks candi
     # dan menampungnya pada stack_candi
@@ -213,7 +205,7 @@ def hapusSemuaCandi(arr_candi: list[list[any]],kolom_cari: int,item: any, stack_
             arr_candi[i] = ['','','','','']
         i += 1
 
-def splitStr(string: str,delimiter: str) -> list[str]:
+def splitStr(string: str,delimiter: str) -> List[str]:
     # Fungsi split() buatan sendiri
     panjang = len(string)
     jmlh_delim = 0
@@ -231,7 +223,7 @@ def splitStr(string: str,delimiter: str) -> list[str]:
     
     return hasil
 
-def salinKeCSV(filename: str,arr: list[list[any]],jenis: str) -> None:
+def salinKeCSV(filename: str,arr: List[List[Union[int,str]]],jenis: str) -> None:
     # Menyalin isi matriks ke file CSV
     with open(filename,'w') as f:
         if jenis == 'user':
@@ -248,7 +240,7 @@ def salinKeCSV(filename: str,arr: list[list[any]],jenis: str) -> None:
                 f.write(string)
             i+=1
 
-def listToStrCSV(arr: list[list[any]],jenis: str) -> str:
+def listToStrCSV(arr: List[List[Union[int,str]]],jenis: str) -> str:
     # Kebalikan dari split, mengubah suatu array dan menggabungnya menjadi string
     # dengan delimiter ";"
     string = ''
@@ -265,7 +257,7 @@ def listToStrCSV(arr: list[list[any]],jenis: str) -> str:
     
     return string
 
-def listKerja(arr_user: list[list[str]],arr_candi: list[list[any]]) -> list[list[any]]:
+def listKerja(arr_user: List[List[str]],arr_candi: List[List[Union[int,str]]]) -> List[List[Union[int,str]]]:
     # Menglist banyak candi yang dibangun untuk masing-masing jin
     # Untuk jin pengumpul dengan 0 candi dibangun, tidak dicatat
     list_bangun = [['' for i in range(2)]for j in range(101)]
@@ -289,7 +281,7 @@ def listKerja(arr_user: list[list[str]],arr_candi: list[list[any]]) -> list[list
         i += 1
     return list_bangun
 
-def kosongStack(stack_candi: list[list[any]], stack_user: list[list[any]]) -> None:
+def kosongStack(stack_candi: List[List[Union[int,str]]], stack_user: List[List[Union[int,str]]]) -> None:
     # Mengosongkan isi stack
     i = 0
     while stack_candi[i][0] != 99999:
@@ -301,3 +293,8 @@ def kosongStack(stack_candi: list[list[any]], stack_user: list[list[any]]) -> No
         if stack_user[i][0] != '':
             stack_user[i] = ['','','']
         i+=1
+
+def randomm(x,seeds):
+    if x == 0:
+        return math.floor(seeds)
+    return (randomm(x-1,seeds)*1103515245+12345)%(2**31)
