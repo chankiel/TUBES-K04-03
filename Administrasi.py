@@ -201,7 +201,7 @@ def ket_help(jenis: str) -> None:
 1. logout
    Untuk keluar dari akun yang digunakan sekarang
 2. kumpul
-   Untuk mengumpulkan baha-bahan candi, yakni pasir,batu,dan air
+   Untuk mengumpulkan bahan-bahan candi, yakni pasir,batu,dan air
 3. save
    Untuk menyimpan progress manajerial candi
 4. exit
