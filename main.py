@@ -7,10 +7,10 @@ import os
 
 # Menerima Argument Load
 parser = argparse.ArgumentParser()
-parser.add_argument('folder')
+parser.add_argument('folder',nargs='?',type=str, default='')
 args = parser.parse_args()
 folder = args.folder
-if folder is None:
+if folder == '':
     print("Tidak ada nama folder yang diberikan!")
     print("Usage: python main.py <nama_folder>")
     exit()
