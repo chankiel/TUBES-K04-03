@@ -104,7 +104,7 @@ def pemilih(arr: List[List[Union[int,str]]],pilih: int,item: Union[int,str],kolo
             return arr[i][kolom_return]
         i+=1
 
-def penambah(item: Union[int,str],arr: List[List[Union[int,str]]]) -> None:
+def penambah(item: List[Union[int,str]],arr: List[List[Union[int,str]]]) -> None:
     # Menambahkan "item" pada baris paling atas matriks "arr" yang kosong
     i = 0
     while arr[i][0] != 99999:
@@ -113,12 +113,12 @@ def penambah(item: Union[int,str],arr: List[List[Union[int,str]]]) -> None:
             break
         i += 1
 
-def jumlah_kurang(bahanPunya: List[List[Union[int,str]]],bahanPerlu: List[int]) -> List[int]:
+def jumlah_kurang(arr_bahan: List[List[Union[int,str]]],bahanPerlu: List[int]) -> List[int]:
     # Mengembalikan jumlah bahan yang kurang untuk batchbangun
     bahanKurang = [0,0,0]
     for i in range(3):
-        if bahanPunya[i][2] < bahanPerlu[i]:
-            bahanKurang[i] = bahanPerlu[i] - bahanPunya[i][2]
+        if arr_bahan[i][2] < bahanPerlu[i]:
+            bahanKurang[i] = bahanPerlu[i] - arr_bahan[i][2]
     return bahanKurang
 
 def findTerajin(arr_bangun: List[List[Union[int,str]]]) -> str:
@@ -194,7 +194,7 @@ def candiTer(arr_candi: List[List[Union[int,str]]],jenis: str) -> List[int]:
         i+=1
     return [indx,temp]
 
-def hapusSemuaCandi(arr_candi: List[List[Union[int,str]]],kolom_cari: int,item: Union[int,str], stack_candi = List[List[Union[int,str]]]) -> None:
+def hapusSemuaCandi(arr_candi: List[List[Union[int,str]]],kolom_cari: int,item: Union[int,str], stack_candi: List[List[Union[int,str]]]) -> None:
     # Menghapus semua candi yang berisi "item" pada kolom "kolom_cari" pada matriks candi "arr_candi"
     # Digunakan pada hapus jin, dimana menghapus semua candi milik jin tersebut pada matriks candi
     # dan menampungnya pada stack_candi

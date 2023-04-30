@@ -9,13 +9,13 @@ def summonjin(arr_user: List[List[str]]) -> None:
 (2) Pembangun - Bertugas membangun candi''')
 
         while True:
-            nomor = int(input("\nMasukkan nomor jenis jin yang ingin dipanggil: "))
-            if nomor==1:
+            nomor = input("\nMasukkan nomor jenis jin yang ingin dipanggil: ")
+            if nomor=='1':
                 print("\nMemilih jin \"Pengumpul\".")
-            elif nomor==2:
+            elif nomor=='2':
                 print("\nMemilih jin \"Pembangun\".")
             else:
-                print("\nTidak ada jenis jin bernomor \""+str(nomor)+"\"!")
+                print("\nTidak ada jenis jin bernomor \""+nomor+"\"!")
                 continue
             break
         while True:
@@ -30,7 +30,7 @@ def summonjin(arr_user: List[List[str]]) -> None:
                 break
             else:
                 print("\nPassword panjangnya harus 5-25 karakter!")
-        penambah([username,pw,arr_temp[nomor]],arr_user)
+        penambah([username,pw,arr_temp[int(nomor)]],arr_user)
         print('''\nMengumpulkan sesajen...
 Menyerahkan sesajen...
 Membacakan mantra...''')

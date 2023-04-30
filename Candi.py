@@ -40,8 +40,8 @@ def bangun(arr_bahan: List[List[Union[int,str]]],arr_candi: List[List[Union[int,
         if sisa_candi != 0:
             # Jika jumlah candi kurang dari 100, candi dicatat ke data candi
             # Jika sudah lebih dari 100, dianggap tidak ada pembangunan candi tapi bahan tetap dikurangi
-            indx = firstIndx('', arr_candi, 0)
-            arr_candi[indx] = [indx+1,pembuat,bahan[0],bahan[1],bahan[2]]
+            indx = firstIndx('', arr_candi, 0) + 1
+            arr_candi[indx] = [indx,pembuat,bahan[0],bahan[1],bahan[2]]
             sisa_candi -= 1
         for i in range(3):
             arr_bahan[i][2] -= bahan[i]
@@ -116,10 +116,17 @@ def hancurkancandi(arr_candi: List[List[Union[int,str]]]) -> None:
     if arr_candi[id-1][0]=="":
         print("\nTidak ada candi dengan ID tersebut.")
     else:
-        valid = input("Apakah anda yakin ingin menghancurkan candi ID: "+str(id)+" (Y/N)?")
+        while True:
+            valid = input("Apakah anda yakin ingin menghancurkan candi ID: "+str(id)+" (Y/N)?")
+            if valid=='Y' or valid=='N':
+                break
+            print("Input hanya berupa \"Y\" atau \"N\"!")
         if valid=='Y':
             arr_candi[id-1] = ['','','','','']
             print("\nCandi telah berhasil dihancurkan.")
+        else:
+            print("Candi gagal dihancurkan")
+        
 
 def ayamberkokok(arr_candi: List[List[Union[int,str]]]) -> None:
     print("Kukuruyuk.. Kukuruyuk..")
