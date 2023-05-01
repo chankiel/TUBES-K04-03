@@ -40,8 +40,8 @@ def bangun(arr_bahan: List[List[Union[int,str]]],arr_candi: List[List[Union[int,
         if sisa_candi != 0:
             # Jika jumlah candi kurang dari 100, candi dicatat ke data candi
             # Jika sudah lebih dari 100, dianggap tidak ada pembangunan candi tapi bahan tetap dikurangi
-            indx = firstIndx('', arr_candi, 0) + 1
-            arr_candi[indx] = [indx,pembuat,bahan[0],bahan[1],bahan[2]]
+            indx = firstIndx('', arr_candi, 0)
+            arr_candi[indx] = [indx+1,pembuat,bahan[0],bahan[1],bahan[2]]
             sisa_candi -= 1
         for i in range(3):
             arr_bahan[i][2] -= bahan[i]
@@ -100,10 +100,10 @@ def laporancandi(arr_candi: List[List[Union[int,str]]]) -> None:
         print("> Total Batu yang digunakan:",totalTerpakai(arr_candi, 3))
         print("> Total Air yang digunakan:",totalTerpakai(arr_candi, 4))
 
-        candi = candiTer(arr_candi, "Termahal")
-        print(f"> ID Candi Termahal: "+str(candi[0])+" (Rp "+str(candi[1])+")")
-        candi = candiTer(arr_candi, "Termurah")
-        print(f"> ID Candi Termurah: "+str(candi[0])+" (Rp "+str(candi[1])+")")
+        info_candi = candiTer(arr_candi, "Termahal")
+        print("> ID Candi Termahal: "+str(info_candi[0])+" (Rp "+str(info_candi[1])+")")
+        info_candi = candiTer(arr_candi, "Termurah")
+        print("> ID Candi Termurah: "+str(info_candi[0])+" (Rp "+str(info_candi[1])+")")
     else:
         print("> Total Pasir yang digunakan: 0")
         print("> Total Batu yang digunakan: 0")
