@@ -240,7 +240,7 @@ def salinKeCSV(filename: str,arr: List[List[Union[int,str]]],jenis: str) -> None
                 f.write(string)
             i+=1
 
-def listToStrCSV(arr: List[List[Union[int,str]]],jenis: str) -> str:
+def listToStrCSV(arr: List[Union[int,str]],jenis: str) -> str:
     # Kebalikan dari split, mengubah suatu array dan menggabungnya menjadi string
     # dengan delimiter ";"
     string = ''
